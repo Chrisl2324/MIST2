@@ -1,53 +1,113 @@
-html, body {
-    width: 100%; 
-    height: 100%; 
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    background: #006c87; /* Old browsers */
-    background: -moz-linear-gradient(0deg, #191d1e 50%, #283139 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(50%, #191d1e), color-stop(100%, #283139)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(0deg, #191d1e 50%, #283139 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(0deg, #191d1e 50%, #283139 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(0deg, #191d1e 50%, #283139 100%); /* IE10+ */
-    background: linear-gradient(0deg, #191d1e 50%, #283139 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#191d1e', endColorstr='#283139', GradientType=1); /* IE6-9 fallback on horizontal gradient */
-    background-attachment: fixed;
+/* General Body Styling */
+body {
+    background-color: rgba(0, 0, 0, 0.455);
+    font-family: Arial, sans-serif; /* Use a clean, modern font */
 }
 
-#projector {
-    position: absolute; 
-    top: 150px;
+/* Heading Styling */
+h1 {
+    color: yellow;
+    padding-top: 1.5em;
+    text-shadow: 2px 2px 3px black;
+    font-size: 120px;
+    text-align: center; /* Center the heading */
+}
+
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker semi-transparent background */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    z-index: 1000; /* Ensure it appears on top of other content */
 }
 
-.center-div {
-    width: 580px;
-    height: 374px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+/* Modal Content */
+.modal-content {
+    background-color: #f0f0f0; /* Light gray background */
+    padding: 30px; /* Add more padding for spaciousness */
+    border-radius: 15px; /* More rounded corners for a modern look */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
+    width: 90%; /* Make the modal larger */
+    max-width: 500px; /* Increase the max width */
+    color: #333; /* Darker text for contrast */
 }
 
-#preloaderDiv {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+/* Close Button */
+.close {
+    color: #888;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -10px; /* Adjust position if necessary */
 }
 
-#logo {
-    opacity: 1;
+.close:hover {
+    color: #333; /* Darker color on hover */
 }
 
-#date2014 {
-    position: absolute;
-    padding-left: 210px;
-    padding-top: 15px;
-    opacity: 0;
-    top: 303px;
-    left: 0;
+/* Form Elements */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333; /* Darker text for labels */
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+    width: 100%; /* Full width for input fields */
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding in width */
+    font-size: 16px;
+}
+
+/* Submit Button Styling */
+form input[type="submit"] {
+    background-color: #387fdd; /* Blue background */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Full width for the button */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Button Container Styling */
+.buttons {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px; /* Add some space above the buttons */
+}
+
+.welcomeMessage {
+    font-size: 20px; /* Larger font size for emphasis */
+    color: #ffffff; /* White text color */
+    text-align: center; /* Center the text */
+    font-weight: 600; /* Make the text bold */
+    margin-bottom: 20px; /* Add space below */
+}
+
+/* Profile Picture Styling */
+.pfp {
+    display: block;
+    margin: 20px auto; /* Center the image and add space */
+    border-radius: 25px;
+    max-width: 100%; /* Make sure the image is responsive */
 }

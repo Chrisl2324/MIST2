@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../static/homepage.css">
+  <link rel="stylesheet" href="../static/realhomepage.css">
+
   <title>Steam Engine Data Manager</title>
 </head>
 <body>
 
+  <h1 id="welcome">Become Efficient <br> With M.I.S.T.</h1>
+  <!-- Display the logo -->
+  <img id="logo" src="https://i.pinimg.com/736x/e0/27/b1/e027b1453d61be4ed8ad5596bcff6dd9.jpg" alt="MIST Logo" class="circular-image">
+  <p id="description">The #1 System Management App</p>
 
+  <!-- Sign In Button -->
+  <a href="{{ url_for('signIn') }}" class="signin-button">Start Today</a>
+
+  <h2 id="appName"> MIST </h2>
 </body>
 </html>

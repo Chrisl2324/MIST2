@@ -1,0 +1,55 @@
+
+html, body {
+    margin: 0; /* Remove default margin */
+  }
+
+  body {
+    min-height: 100vh; /* Ensure body is at least full viewport height */
+    background-image: linear-gradient(rgb(255, 195, 121), rgb(255, 175, 55));
+    background-size: cover; /* Ensure the gradient covers the body */
+    background-repeat: no-repeat; /* Prevent repeating */
+  }
+
+h1{
+    padding-left: 23%;
+    padding-top: 13%;
+    font-size: 400%;
+}
+
+img{
+    padding-left: 23%;
+    margin-top: -3%;
+    height: 330px;
+    width:auto;
+}
+#description{
+    margin-top: -32.5%;
+    margin-left: 23.2%;
+}
+
+#appName{
+    margin-top: -520px;
+    margin-left: 23%;
+}
+
+.signin-button {
+    display: inline-block; /* Makes it behave like a button */
+    padding: 10px 10px; /* Add some padding */
+    margin-top: 225px; /* Space from the elements above */
+    margin-left: 650px;
+    background-color: #449890; /* Background color of the button */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 10px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    font-size: 30px; /* Change this value to adjust the text size */
+
+}
+
+.signin-button:hover {
+    background-color: #4a65d4; /* Darker shade on hover */
+    transform: scale(1.05); 
+
+}
+realhomepage.css
+Displaying realhomepage.css.

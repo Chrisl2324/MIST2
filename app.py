@@ -8,8 +8,9 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')  # Load secret key from environment variable
 
 # Initialize the S3 client without hardcoded credentials
-s3_client = boto3.client("s3")
-
+s3_client = boto3.client(
+    "s3", #-1 Specify your AWS region
+)
 # In-memory user storage (for demonstration purposes)
 users = {}
 
@@ -17,7 +18,7 @@ users = {}
 @app.route("/")
 def signin():
     success_message = request.args.get('success')
-    return render_template("signInPage.html", success_message=success_message)
+    return render_template("realhomepage.html", success_message=success_message)
 
 # Route for creating a new account
 @app.route('/createAccount', methods=['GET', 'POST'])
@@ -43,8 +44,9 @@ def createAccount():
         # Return a success response with the homepage URL
         return jsonify({"url": url_for('homepage')}), 200  # Change to JSON response
 
-    return render_template('createAccount.html')
+    return render_template('homepage.html')
 
+# Route for user sign-in
 # Route for user sign-in
 @app.route('/signIn', methods=['GET', 'POST'])
 def signIn():
@@ -55,14 +57,17 @@ def signIn():
         # Check if user exists and password matches
         if username in users and check_password_hash(users[username], password):
             session['username'] = username  # Store username in session
-            return jsonify({"success": True, "redirect": url_for('homepage')})
+            return redirect(url_for('homepage'))  # Redirect to the homepage
         else:
-            return jsonify({"success": False, "message": "Invalid username or password. Please try again."}), 401
+            # Return an error message if sign-in fails
+            error_message = "Invalid username or password. Please try again."
+            return render_template('updatedHomePage.html', error_message=error_message)
 
-    return render_template('signIn.html')
+    return render_template('updatedHomePage.html')
+
 
 # Route for the homepage
-@app.route('/homepage', methods=['GET'])
+@app.route('/homepage', methods=['GET', 'POST'])
 def homepage():
     return render_template('homepage.html')
 

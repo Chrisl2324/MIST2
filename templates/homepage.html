@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+
+{%block head %}
   <link rel="stylesheet" href="../static/homepage.css">
   <title>Steam Engine Data Manager</title>
   <style>
@@ -20,46 +18,13 @@
       font-weight: bold;
     }
   </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+{% endblock %}
+
+{%block content %}
   
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
 
   <div id="grad1">
-    <h1 id="title">Welcome To The M.I.S.T Data Manager</h1>
+    <h1 id="title">Data Manager</h1>
 
     <!-- Button to show the form for submitting data -->
     <button id="openFormButton">Submit Data</button>
@@ -101,6 +66,14 @@
       <button type="submit">Retrieve</button>
     </form>
 
+    <div id="retrieveDataModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" id="closeModalButton">&times;</span>
+        <h3>Retrieved Data:</h3>
+        <div id="retrievedData"></div>
+      </div>
+    </div>
+
     <!-- Button to show the form for clearing specific data -->
     <button id="openClearDataFormButton">Clear Data For A Specific System</button>
 
@@ -115,12 +88,8 @@
     <!-- Button to clear all data -->
     <button id="clearDataButton">Clear All Data</button>
 
-    <!-- Div to display retrieved data -->
-    <div id="retrievedDataViewport">
-      <h3>Retrieved Data:</h3>
-      <div id="retrievedData"></div>
-    </div>
-  </div>
+  
+  
 
   <script>
     const ADMIN_KEY = "sZco=Tsh:zoZPJS"; // Define the admin key
@@ -173,31 +142,60 @@
       }
     });
 
+    function openModal() {
+      document.getElementById('retrieveDataModal').style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+      document.getElementById('retrieveDataModal').style.display = 'none';
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('retrieveDataModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Close the modal when the close button is clicked
+    document.getElementById('closeModalButton').onclick = closeModal;
+
+    // Handle form submission
     document.getElementById('retrieveDataForm').addEventListener('submit', async function(event) {
       event.preventDefault();
       const engineName = document.getElementById('retrieveEngineName').value;
 
-      const response = await fetch(`/retrieve/${engineName}`, {
-        method: 'GET'
-      });
+      // Clear previous data and show loading message
+      const retrievedDataElement = document.getElementById('retrievedData');
+      retrievedDataElement.innerHTML = 'Loading...';
 
-      if (response.ok) {
-        const data = await response.json();
-        document.getElementById('retrievedData').innerHTML = `
-          <div class="data-field"><span class="data-label">System Name:</span> ${data.data.engineName}</div>
-          <div class="data-field"><span class="data-label">Submission Date:</span> ${data.data.submissionDate}</div>
-          <div class="data-field"><span class="data-label">Power Output:</span> ${data.data.powerOutput} kW</div>
-          <div class="data-field"><span class="data-label">Pressure:</span> ${data.data.pressure} bar</div>
-          <div class="data-field"><span class="data-label">Velocity:</span> ${data.data.velocity} m/s</div>
-          <div class="data-field"><span class="data-label">Acceleration:</span> ${data.data.acceleration} m/s²</div>
-          <div class="data-field"><span class="data-label">Weight:</span> ${data.data.weight} kg</div>
-        `;
-        document.getElementById('retrievedDataViewport').style.display = 'block';
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message); // Show error message
-        document.getElementById('retrievedDataViewport').style.display = 'none'; // Hide viewport on error
+      try {
+        // Make the GET request to retrieve data
+        const response = await fetch(`/retrieve/${engineName}`, { method: 'GET' });
+
+        if (response.ok) {
+          const data = await response.json();
+          retrievedDataElement.innerHTML = `
+            <div class="data-field"><span class="data-label">System Name:</span> ${data.data.engineName}</div>
+            <div class="data-field"><span class="data-label">Submission Date:</span> ${data.data.submissionDate}</div>
+            <div class="data-field"><span class="data-label">Power Output:</span> ${data.data.powerOutput} kW</div>
+            <div class="data-field"><span class="data-label">Pressure:</span> ${data.data.pressure} bar</div>
+            <div class="data-field"><span class="data-label">Velocity:</span> ${data.data.velocity} m/s</div>
+            <div class="data-field"><span class="data-label">Acceleration:</span> ${data.data.acceleration} m/s²</div>
+            <div class="data-field"><span class="data-label">Weight:</span> ${data.data.weight} kg</div>
+          `;
+        } else {
+          const errorData = await response.json();
+          retrievedDataElement.innerHTML = `Error: ${errorData.message}`;
+        }
+      } catch (error) {
+        retrievedDataElement.innerHTML = `Error: ${error.message}`;
       }
+
+      // Open the modal
+      openModal();
     });
 
     document.getElementById('clearSpecificDataForm').addEventListener('submit', async function(event) {
@@ -237,5 +235,5 @@
     });
   </script>
 
-</body>
+{%endblock %}
 </html>

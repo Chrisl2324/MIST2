@@ -1,36 +1,4 @@
-body{
-    background-color:rgba(0, 0, 0, 0.455);
-}
 
-
-h1{
-    top:0px; left:0px;
-    text-align: center;
-    
-}
-
-.welcome{
-    font-size:45px;
-    color: rgb(255 195 0);    
-    font-style: oblique;
-    font-family:'Gill Sans';
-}
-
-.redRat{
-    font-size:50px; 
-    color: rgb(255 123 5);
-    font-style: oblique;
-    font-family:'Gill Sans';
-}
-
-.welcomeMessage{
-    font-size: 160%; 
-    font-family:'Times New Roman'; 
-    text-align: center;
-    font-weight: bold;
-    color: rgb(255 158 2);    
-    margin-top: 70px;
-}
 
 .createAccountMessage{
  margin-right: 5.4px;
@@ -53,13 +21,6 @@ h1{
     z-index: 5;
 }
 
-.signInButton{
-    display: flex;
-    margin-left: 785px;
-    margin-top: -37.1px;
-    pointer-events: auto;
-    z-index: 5;
-}
 
 .createAccountMessage{
     text-align: center;
@@ -67,11 +28,8 @@ h1{
     font-family: 'Times New Roman';
     margin-bottom: -310px;
 }
-
-.pfp {
-    display: block;
-    margin-top: 190px;
-    margin-left: 430px;
+footer{
+    background-color: white;
 }
 
 .musicContainer {
