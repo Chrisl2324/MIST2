@@ -6,6 +6,31 @@
  font-size:larger;
 }
 
+.flash-messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .flash-messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    font-family: 'rubik';
+    font-size: 30px;
+    text-shadow: 2px 2px 2px black;
+    opacity: 0;
+    animation: fade-in 4s ease-in forwards;
+  }
+  @keyframes fade-in {
+    from {
+        opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 .contactInfo{
     position: absolute; 
     bottom: 0;

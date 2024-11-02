@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-    <form id="signInForm" method="POST" action="/signIn">
+    <form id="signInForm" method="POST" action="/signIn" onsubmit="validateForm(event)" target="_blank">
         <h2 style="color: rgb(255, 255, 255);">Sign In</h2>
         <label style="color: rgb(255, 255, 255);" for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Enter your username" required>
@@ -61,9 +61,6 @@
     </form>
 
     <script>
-        // Add event listener to handle form submission
-        document.getElementById('signInForm').addEventListener('submit', validateForm);
-
         // Validate and submit the form
         function validateForm(event) {
             const username = document.getElementById('username').value;
@@ -75,8 +72,7 @@
                 errorMessage.textContent = 'Username and password cannot be empty';
             } else {
                 errorMessage.textContent = ''; // Clear any previous error messages
-                event.preventDefault(); // Prevent default form submission
-                submitForm(); // Proceed to submit the form via AJAX
+                submitForm(); // Proceed to submit the form
             }
         }
 
@@ -99,7 +95,6 @@
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById('error-message').textContent = "An error occurred. Please try again later.";
             });
         }
     </script>
