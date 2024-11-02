@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/homepage.css">
+  <title>Steam Engine Data Manager</title>
+  <style>
+    #retrievedDataViewport {
+      display: none;
+      margin-top: 20px;
+      border: 1px solid #ccc; /* Add border for clarity */
+      padding: 10px; /* Add some padding */
+      background-color: #f9f9f9; /* Light background for contrast */
+    }
+    .data-field {
+      margin: 5px 0;
+    }
+    .data-label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="grad1">
+    <h1 id="title">Welcome To The M.I.S.T Data Manager</h1>
+
+    <!-- Button to show the form for submitting data -->
+    <button id="openFormButton">Submit Data</button>
+
+    <!-- Form to submit data -->
+    <form id="steamEngineForm" class="form-container" style="display: none;">
+      <label for="engineName">System Name:</label>
+      <input type="text" id="engineName" name="engineName" required><br>
+
+      <label for="submissionDate">Date of Submission:</label>
+      <input type="date" id="submissionDate" name="submissionDate" required><br>
+
+      <label for="powerOutput">Power Output (kW):</label>
+      <input type="number" id="powerOutput" name="powerOutput" required><br>
+
+      <label for="pressure">Pressure (bar):</label>
+      <input type="number" id="pressure" name="pressure" required><br>
+
+      <label for="velocity">Average Velocity (m/s):</label>
+      <input type="number" id="velocity" name="velocity" required><br>
+
+      <label for="acceleration">Average Acceleration (m/s²):</label>
+      <input type="number" id="acceleration" name="acceleration" required><br>
+
+      <label for="weight">Weight (kg):</label>
+      <input type="number" id="weight" name="weight" required><br>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <!-- Button to show the form for retrieving data -->
+    <button id="openRetrieveFormButton">Retrieve Data</button>
+
+    <!-- Form to retrieve data -->
+    <form id="retrieveDataForm" class="form-container" style="display: none;">
+      <label for="retrieveEngineName">System Name:</label>
+      <input type="text" id="retrieveEngineName" name="retrieveEngineName" required><br>
+
+      <button type="submit">Retrieve</button>
+    </form>
+
+    <!-- Button to show the form for clearing specific data -->
+    <button id="openClearDataFormButton">Clear Data For A Specific System</button>
+
+    <!-- Form to clear specific data -->
+    <form id="clearSpecificDataForm" class="form-container" style="display: none;">
+      <label for="clearEngineName">System To Clear:</label>
+      <input type="text" id="clearEngineName" name="clearEngineName" required><br>
+
+      <button type="submit">Clear Data</button>
+    </form>
+
+    <!-- Button to clear all data -->
+    <button id="clearDataButton">Clear All Data</button>
+
+    <!-- Div to display retrieved data -->
+    <div id="retrievedDataViewport">
+      <h3>Retrieved Data:</h3>
+      <div id="retrievedData"></div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_KEY = "sZco=Tsh:zoZPJS"; // Define the admin key
+
+    document.getElementById('openFormButton').addEventListener('click', function() {
+      const form = document.getElementById('steamEngineForm');
+      const retrievedDataViewport = document.getElementById('retrievedDataViewport');
+
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      if (form.style.display === 'none') {
+        retrievedDataViewport.style.display = 'none'; // Hide retrieved data viewport when the form is closed
+      }
+    });
+
+    document.getElementById('openRetrieveFormButton').addEventListener('click', function() {
+      const form = document.getElementById('retrieveDataForm');
+      const retrievedDataViewport = document.getElementById('retrievedDataViewport');
+
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      if (form.style.display === 'none') {
+        retrievedDataViewport.style.display = 'none'; // Hide retrieved data when the form is closed
+      }
+    });
+
+    document.getElementById('openClearDataFormButton').addEventListener('click', function() {
+      const form = document.getElementById('clearSpecificDataForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('steamEngineForm').addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent default form submission
+      const formData = new FormData(event.target);
+      const jsonData = {};
+      formData.forEach((value, key) => jsonData[key] = value);
+
+      const response = await fetch('/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData)
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        alert(responseData.message); // Show success message
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message); // Show error message
+      }
+    });
+
+    document.getElementById('retrieveDataForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const engineName = document.getElementById('retrieveEngineName').value;
+
+      const response = await fetch(`/retrieve/${engineName}`, {
+        method: 'GET'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById('retrievedData').innerHTML = `
+          <div class="data-field"><span class="data-label">System Name:</span> ${data.data.engineName}</div>
+          <div class="data-field"><span class="data-label">Submission Date:</span> ${data.data.submissionDate}</div>
+          <div class="data-field"><span class="data-label">Power Output:</span> ${data.data.powerOutput} kW</div>
+          <div class="data-field"><span class="data-label">Pressure:</span> ${data.data.pressure} bar</div>
+          <div class="data-field"><span class="data-label">Velocity:</span> ${data.data.velocity} m/s</div>
+          <div class="data-field"><span class="data-label">Acceleration:</span> ${data.data.acceleration} m/s²</div>
+          <div class="data-field"><span class="data-label">Weight:</span> ${data.data.weight} kg</div>
+        `;
+        document.getElementById('retrievedDataViewport').style.display = 'block';
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message); // Show error message
+        document.getElementById('retrievedDataViewport').style.display = 'none'; // Hide viewport on error
+      }
+    });
+
+    document.getElementById('clearSpecificDataForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const engineName = document.getElementById('clearEngineName').value;
+
+      const response = await fetch(`/clear/${engineName}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message); // Show success message
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message); // Show error message
+      }
+    });
+
+    document.getElementById('clearDataButton').addEventListener('click', async function() {
+      const adminKeyInput = prompt("Please enter the admin key to clear all data:");
+      if (adminKeyInput === ADMIN_KEY) {
+        const response = await fetch('/clear/all', {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message); // Show success message
+        } else {
+          const errorData = await response.json();
+          alert(errorData.message); // Show error message
+        }
+      } else {
+        alert("Incorrect admin key. Please try again."); // Error message for incorrect key
+      }
+    });
+  </script>
+
+</body>
+</html>
