@@ -1,0 +1,97 @@
+body{
+    background-color:rgba(0, 0, 0, 0.455);
+}
+
+
+h1{
+    top:0px; left:0px;
+    text-align: center;
+    
+}
+
+.welcome{
+    font-size:45px;
+    color: rgb(255 195 0);    
+    font-style: oblique;
+    font-family:'Gill Sans';
+}
+
+.redRat{
+    font-size:50px; 
+    color: rgb(255 123 5);
+    font-style: oblique;
+    font-family:'Gill Sans';
+}
+
+.welcomeMessage{
+    font-size: 160%; 
+    font-family:'Times New Roman'; 
+    text-align: center;
+    font-weight: bold;
+    color: rgb(255 158 2);    
+    margin-top: 70px;
+}
+
+.createAccountMessage{
+ margin-right: 5.4px;
+ color: rgb(255 158 2); 
+ font-size:larger;
+}
+
+.contactInfo{
+    position: absolute; 
+    bottom: 0;
+    left: 15px;
+    font-weight: bold;
+    font-size: 17.19px;
+    color:rgb(154, 15, 253)
+}
+
+.createAccountButton{
+    margin-left: 637px;
+    margin-top: 115px;
+    z-index: 5;
+}
+
+.signInButton{
+    display: flex;
+    margin-left: 785px;
+    margin-top: -37.1px;
+    pointer-events: auto;
+    z-index: 5;
+}
+
+.createAccountMessage{
+    text-align: center;
+    font-size: 103%;
+    font-family: 'Times New Roman';
+    margin-bottom: -310px;
+}
+
+.pfp {
+    display: block;
+    margin-top: 190px;
+    margin-left: 430px;
+}
+
+.musicContainer {
+    position: absolute; /* Position it absolutely */
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+    z-index: 10; /* Ensure it is above other elements */
+    background-color: rgba(0, 0, 0, 0.7); /* Optional: semi-transparent background */
+    border-radius: 5px; /* Optional: rounded corners */
+    padding: 10px; /* Optional: some padding */
+}
+
+.loungeMusic {
+    width: 100%; /* Make audio player take full width of the container */
+}
+
+.loungeMessage {
+    color: white; /* Adjust the color for better visibility */
+    text-align: center; /* Center the text */
+    margin-top: 5px; /* Spacing from the audio player */
+}
+
+
