@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Settings</title>
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Light Mode */
+    body.light-mode {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    /* Dark Mode */
+    body.dark-mode {
+      background-color: #333;
+      color: #f0f0f0;
+    }
+
+    .settings-container {
+      width: 100%;
+      max-width: 400px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    body.dark-mode .settings-container {
+      background-color: #444;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    /* Input Group */
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 1em;
+      margin-bottom: 5px;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1em;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    /* Toggle Switch */
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    /* Save Button */
+    .save-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 6px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .save-button:hover {
+      background-color: #45a049;
+    }
+
+    /* Message Box */
+    .message-box {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1em;
+      color: #4CAF50;
+      display: none;
+    }
+  </style>
+</head>
+<body class="light-mode">
+
+  <div class="settings-container">
+    <h2>Settings</h2>
+
+    <!-- Username Input -->
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username">
+    </div>
+
+    <!-- Email Input -->
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="toggle">
+      <label for="darkMode">Dark Mode</label>
+      <input type="checkbox" id="darkMode">
+    </div>
+
+    <!-- Notifications Toggle -->
+    <div class="toggle">
+      <label for="notifications">Email Notifications</label>
+      <input type="checkbox" id="notifications">
+    </div>
+
+    <!-- Theme Selector -->
+    <div class="input-group">
+      <label for="theme">Theme</label>
+      <select id="theme">
+        <option value="default">Default</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+
+    <!-- Save Button -->
+    <button class="save-button" id="saveButton">Save Settings</button>
+
+    <!-- Message Box -->
+    <div class="message-box" id="messageBox">Settings Saved!</div>
+  </div>
+
+  <script>
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkMode');
+    darkModeToggle.addEventListener('change', function () {
+      document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+      document.body.classList.toggle('light-mode', !darkModeToggle.checked);
+    });
+
+    // Save Button Click
+    const saveButton = document.getElementById('saveButton');
+    const messageBox = document.getElementById('messageBox');
+    saveButton.addEventListener('click', function () {
+      messageBox.style.display = 'block';
+      setTimeout(() => {
+        messageBox.style.display = 'none';
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>

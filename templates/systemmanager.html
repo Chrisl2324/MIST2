@@ -1,0 +1,179 @@
+{% extends 'base.html'%}
+
+{%block head%}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/systemmanager.css">
+  <title>Steam Engine Data Manager</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      padding: 20px;
+    }
+    #title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    /* Centered button container */
+    #buttonContainer {
+      display: flex;
+      justify-content: center;
+      gap: 10px; /* Space between buttons */
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    #retrievedDataViewport {
+      display: none;
+      margin-top: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: black;
+      border-radius: 5px;
+    }
+    .system-entry {
+      margin: 15px 0; /* Spacing between each system entry */
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .data-field {
+      margin: 5px 0;
+    }
+  </style>
+{%endblock%}
+{%block content%}
+
+  <h1 id="title">System Manager</h1>
+
+  <div id="buttonContainer">
+    <button id="retrieveAllDataByDateButton">Organize Data (Newest to Oldest)</button>
+    <button id="retrieveAllDataByWeightButton">Organize Data (Heaviest to Lightest)</button>
+    <button id="retrieveAllDataAlphabeticalButton">Organize Data (A-Z by System Name)</button>
+    <input type="text" id="engineNameInput" placeholder="Enter Engine Name">
+    <button id="predictFailureButton">Predict Failure</button>
+  </div>
+
+  <div id="retrievedDataViewport">
+    <div id="retrievedData"></div>
+  </div>
+
+  <script>
+    document.getElementById('retrieveAllDataByDateButton').addEventListener('click', async function() {
+      const response = await fetch('/retrieve/sorted?sort_by=date');
+      const retrievedDataElement = document.getElementById('retrievedData');
+      retrievedDataElement.innerHTML = 'Loading...';
+
+      if (response.ok) {
+        const data = await response.json();
+        retrievedDataElement.innerHTML = data.data.map(item => `
+          <div class="system-entry">
+            <div class="data-field"><span class="data-label">System Name:</span> ${item.engineName}</div>
+            <div class="data-field"><span class="data-label">Submission Date:</span> ${item.submissionDate}</div>
+            <div class="data-field"><span class="data-label">Power Output:</span> ${item.powerOutput}</div>
+            <div class="data-field"><span class="data-label">Pressure:</span> ${item.pressure}</div>
+            <div class="data-field"><span class="data-label">Velocity:</span> ${item.velocity}</div>
+            <div class="data-field"><span class="data-label">Acceleration:</span> ${item.acceleration}</div>
+            <div class="data-field"><span class="data-label">Weight:</span> ${item.weight} kg</div>
+          </div>
+        `).join('');
+      } else {
+        const errorData = await response.json();
+        retrievedDataElement.innerHTML = `Error: ${errorData.message}`;
+      }
+
+      document.getElementById('retrievedDataViewport').style.display = 'block';
+    });
+
+    document.getElementById('retrieveAllDataByWeightButton').addEventListener('click', async function() {
+      const response = await fetch('/retrieve/sorted?sort_by=weight');
+      const retrievedDataElement = document.getElementById('retrievedData');
+      retrievedDataElement.innerHTML = 'Loading...';
+
+      if (response.ok) {
+        const data = await response.json();
+        retrievedDataElement.innerHTML = data.data.map(item => `
+          <div class="system-entry">
+            <div class="data-field"><span class="data-label">System Name:</span> ${item.engineName}</div>
+            <div class="data-field"><span class="data-label">Submission Date:</span> ${item.submissionDate}</div>
+            <div class="data-field"><span class="data-label">Power Output:</span> ${item.powerOutput}</div>
+            <div class="data-field"><span class="data-label">Pressure:</span> ${item.pressure}</div>
+            <div class="data-field"><span class="data-label">Velocity:</span> ${item.velocity}</div>
+            <div class="data-field"><span class="data-label">Acceleration:</span> ${item.acceleration}</div>
+            <div class="data-field"><span class="data-label">Weight:</span> ${item.weight} kg</div>
+          </div>
+        `).join('');
+      } else {
+        const errorData = await response.json();
+        retrievedDataElement.innerHTML = `Error: ${errorData.message}`;
+      }
+
+      document.getElementById('retrievedDataViewport').style.display = 'block';
+    });
+
+    document.getElementById('retrieveAllDataAlphabeticalButton').addEventListener('click', async function() {
+      const response = await fetch('/retrieve/sorted?sort_by=name');
+      const retrievedDataElement = document.getElementById('retrievedData');
+      retrievedDataElement.innerHTML = 'Loading...';
+
+      if (response.ok) {
+        const data = await response.json();
+        retrievedDataElement.innerHTML = data.data.map(item => `
+          <div class="system-entry">
+            <div class="data-field"><span class="data-label">System Name:</span> ${item.engineName}</div>
+            <div class="data-field"><span class="data-label">Submission Date:</span> ${item.submissionDate}</div>
+            <div class="data-field"><span class="data-label">Power Output:</span> ${item.powerOutput}</div>
+            <div class="data-field"><span class="data-label">Pressure:</span> ${item.pressure}</div>
+            <div class="data-field"><span class="data-label">Velocity:</span> ${item.velocity}</div>
+            <div class="data-field"><span class="data-label">Acceleration:</span> ${item.acceleration}</div>
+            <div class="data-field"><span class="data-label">Weight:</span> ${item.weight} kg</div>
+          </div>
+        `).join('');
+      } else {
+        const errorData = await response.json();
+        retrievedDataElement.innerHTML = `Error: ${errorData.message}`;
+      }
+
+      document.getElementById('retrievedDataViewport').style.display = 'block';
+    });
+
+    document.getElementById('predictFailureButton').addEventListener('click', async function() {
+      const engineName = document.getElementById('engineNameInput').value;
+      const response = await fetch(`/predict/failure?system_name=${encodeURIComponent(engineName)}`);
+      const retrievedDataElement = document.getElementById('retrievedData');
+      retrievedDataElement.innerHTML = 'Loading...';
+
+      if (response.ok) {
+        const data = await response.json();
+        retrievedDataElement.innerHTML = `
+          <div class="system-entry">
+            <div class="data-field"><span class="data-label">Engine Name:</span> ${engineName}</div>
+            <div class="data-field"><span class="data-label">Predicted Failure Date:</span> ${data.predictedFailureDate}</div>
+          </div>
+        `;
+      } else {
+        const errorData = await response.json();
+        retrievedDataElement.innerHTML = `Error: ${errorData.message}`;
+      }
+
+      document.getElementById('retrievedDataViewport').style.display = 'block';
+    });
+  </script>
+
+{%endblock%}
